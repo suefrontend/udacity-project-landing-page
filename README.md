@@ -1,5 +1,8 @@
 # Landing Page Project
 
+## project description, usage, dependencies
+
+
 ## Table of Contents
 
 * [Instructions](#instructions)

@@ -44,6 +44,11 @@ const viewportTop = section.map(el => {
 
 // Add class 'active' to section when near top of viewport
 document.addEventListener('scroll', function(e) {
+  ul.style.display = 'block';
+
+  setTimeout(function() {
+    ul.style.display = 'none';
+  }, 4000)
 
   section.forEach((el) => {
     const viewportOffset = el.getBoundingClientRect();
@@ -57,6 +62,15 @@ document.addEventListener('scroll', function(e) {
   })
 
 })
+
+
+
+window.onscroll = function (e)
+{
+  
+    // userHasScrolled = true;
+}
+
 // Scroll to anchor ID using scrollTO event
 
 
@@ -81,6 +95,14 @@ function createList(elem) {
   ul.appendChild(li);
 }
 
+
+// Hide fixed navigation bar while NOT scrolling
+// スクロールしてない時は、ナビを隠す
+// function disableScrolling() {
+//   setTimeout(function() {
+//       ul.style.display = 'none';
+//   }, 3000);
+// }
 // Scroll to section on link click
 
 window.addEventListener('DOMContentLoaded', () => {
