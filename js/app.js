@@ -17,14 +17,12 @@
  * Comments should be present at the beginning of each procedure and class.
  * Great to have comments before crucial code sections within the procedure.
 */
-
-/**
- * Define Global Variables
- * 
-*/
-const ul = document.getElementById('navbar__list');
-const headings = document.querySelectorAll('h2');
-const headingsList = Array.from(headings);
+  /**
+   * Define Global Variables
+   * 
+  */
+  const ul = document.getElementById('navbar__list');
+  const section = Array.from(document.querySelectorAll('[data-nav]'));
 
 /**
  * End Global Variables
@@ -32,19 +30,11 @@ const headingsList = Array.from(headings);
  * 
 */
 
-
-
 /**
  * End Helper Functions
  * Begin Main Functions
  * 
 */
-window.addEventListener('DOMContentLoaded', (event) => {
-  headingsList.forEach(el => {
-    createList(el);
-  })
-});
-
 
 // build the nav
 
@@ -68,8 +58,8 @@ function createList(elem) {
   const link = document.createElement('a');
   link.href = elem.id;
   link.classList.add('menu__link');
-  link.setAttribute('href', '#');
-  link.innerHTML = elem.textContent;
+  link.setAttribute('href', `#${elem.id}`);
+  link.innerHTML = elem.attributes[1].textContent;
 
   li.appendChild(link);
 
@@ -77,6 +67,30 @@ function createList(elem) {
 }
 
 // Scroll to section on link click
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+
+  section.forEach(el => {
+    createList(el);
+  })
+
+  const menuLink = Array.from(document.querySelectorAll('.menu__link'));
+  menuLink.forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 400,
+        behavior: 'smooth',
+      })
+    })
+  });
+})
+
+ 
+
+
 
 // Set sections as active
 
