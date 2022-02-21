@@ -22,7 +22,9 @@
  * Define Global Variables
  * 
 */
-
+const ul = document.getElementById('navbar__list');
+const headings = document.querySelectorAll('h2');
+const headingsList = Array.from(headings);
 
 /**
  * End Global Variables
@@ -37,6 +39,12 @@
  * Begin Main Functions
  * 
 */
+window.addEventListener('DOMContentLoaded', (event) => {
+  headingsList.forEach(el => {
+    createList(el);
+  })
+});
+
 
 // build the nav
 
@@ -54,6 +62,19 @@
 */
 
 // Build menu 
+function createList(elem) {
+  const li = document.createElement('li');
+
+  const link = document.createElement('a');
+  link.href = elem.id;
+  link.classList.add('menu__link');
+  link.setAttribute('href', '#');
+  link.innerHTML = elem.textContent;
+
+  li.appendChild(link);
+
+  ul.appendChild(li);
+}
 
 // Scroll to section on link click
 
