@@ -17,12 +17,12 @@
  * Comments should be present at the beginning of each procedure and class.
  * Great to have comments before crucial code sections within the procedure.
 */
-  /**
-   * Define Global Variables
-   * 
-  */
-  const ul = document.getElementById('navbar__list');
-  const section = Array.from(document.querySelectorAll('[data-nav]'));
+/**
+ * Define Global Variables
+ * 
+*/
+const ul = document.getElementById('navbar__list');
+const section = Array.from(document.querySelectorAll('[data-nav]'));
 
 /**
  * End Global Variables
@@ -68,7 +68,10 @@ function createList(elem) {
 
 // Scroll to section on link click
 
-
+const viewportTop = section.map(el => {
+  const viewportOffset = el.getBoundingClientRect();
+  return viewportOffset.top + window.scrollY;
+})
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -77,20 +80,16 @@ window.addEventListener('DOMContentLoaded', () => {
   })
 
   const menuLink = Array.from(document.querySelectorAll('.menu__link'));
-  menuLink.forEach(el => {
+  menuLink.forEach((el, index) => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
       window.scrollTo({
-        top: 400,
+        top: viewportTop[index],
         behavior: 'smooth',
       })
     })
   });
 })
-
- 
-
-
 
 // Set sections as active
 
