@@ -35,13 +35,28 @@ const section = Array.from(document.querySelectorAll('[data-nav]'));
  * Begin Main Functions
  * 
 */
-
+const viewportTop = section.map(el => {
+  const viewportOffset = el.getBoundingClientRect();
+  return viewportOffset.top + window.scrollY;
+})
 // build the nav
 
 
 // Add class 'active' to section when near top of viewport
+document.addEventListener('scroll', function(e) {
 
+  section.forEach((el) => {
+    const viewportOffset = el.getBoundingClientRect();
+    
+    if(viewportOffset.top < window.innerHeight) {
+      el.classList.add('your-active-class');
+    }
+    if(viewportOffset.bottom < 0) {
+      el.classList.remove('your-active-class');
+    }
+  })
 
+})
 // Scroll to anchor ID using scrollTO event
 
 
@@ -67,11 +82,6 @@ function createList(elem) {
 }
 
 // Scroll to section on link click
-
-const viewportTop = section.map(el => {
-  const viewportOffset = el.getBoundingClientRect();
-  return viewportOffset.top + window.scrollY;
-})
 
 window.addEventListener('DOMContentLoaded', () => {
 
