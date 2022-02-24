@@ -45,6 +45,14 @@ p {
   color: #eee;
 }
 
+/* ---- utility class ----  */
+.hidden {
+  display: none;
+}
+.show {
+  display: block;
+}
+
 /* ---- Layout Rules ---- */
 main {
   margin: 10vh 1em 10vh;
@@ -68,12 +76,10 @@ section {
   padding-left: 0;
   margin: 0;
   text-align: right;
-  display: block;
 }
 .navbar__menu li {
   display: inline-block;
 }
-
 .navbar__menu .menu__link {
   display: block;
   padding: 1em;

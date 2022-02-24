@@ -44,11 +44,6 @@ const viewportTop = section.map(el => {
 
 // Add class 'active' to section when near top of viewport
 document.addEventListener('scroll', function(e) {
-  ul.style.display = 'block';
-
-  setTimeout(function() {
-    ul.style.display = 'none';
-  }, 4000)
 
   section.forEach((el) => {
     const viewportOffset = el.getBoundingClientRect();
@@ -63,13 +58,6 @@ document.addEventListener('scroll', function(e) {
 
 })
 
-
-
-window.onscroll = function (e)
-{
-  
-    // userHasScrolled = true;
-}
 
 // Scroll to anchor ID using scrollTO event
 
@@ -97,12 +85,9 @@ function createList(elem) {
 
 
 // Hide fixed navigation bar while NOT scrolling
-// スクロールしてない時は、ナビを隠す
-// function disableScrolling() {
-//   setTimeout(function() {
-//       ul.style.display = 'none';
-//   }, 3000);
-// }
+
+
+
 // Scroll to section on link click
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -125,3 +110,37 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Set sections as active
 
+let lastScroll = 0;
+window.addEventListener('scroll', (e) => {  
+ 
+  const currentScroll = window.pageYOffset;
+
+  if(currentScroll === 0 ) {
+    ul.classList.add('show');
+  }
+
+  if(currentScroll > lastScroll) {    
+    ul.classList.remove('show');
+    ul.classList.add('hidden');
+
+    setTimeout(function() {
+      ul.classList.remove('hidden');
+    }, 3000);
+
+  }
+
+})
+
+function detectScroll() {
+  let isScrolling = false;
+
+  if(window.pageYOffset <= 0) {
+    isScrolling = false;
+  }
+}
+
+
+// TODO:
+// 1. Fix 'your-active-class'
+// 2. Go to top button
+// 3. Make contents collapsible
