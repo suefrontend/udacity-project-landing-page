@@ -43,23 +43,6 @@ const viewportTop = section.map(el => {
 
 
 // Add class 'active' to section when near top of viewport
-document.addEventListener('scroll', function(e) {
-
-  section.forEach((el) => {
-    const viewportOffset = el.getBoundingClientRect();
-    
-    if(viewportOffset.top < window.innerHeight) {
-      el.classList.add('your-active-class');
-    }
-    if(viewportOffset.bottom < 0) {
-      el.classList.remove('your-active-class');
-    }
-  })
-
-})
-
-
-// Scroll to anchor ID using scrollTO event
 
 
 /**
@@ -106,6 +89,39 @@ window.addEventListener('DOMContentLoaded', () => {
       })
     })
   });
+
+  const getNavHeight = function() {
+    return document.querySelector('.navbar__menu').clientHeight;
+  }
+
+  const containers = document.querySelectorAll("[id*='section'");
+  
+  // Scroll to anchor ID using scrollTO event
+  
+  let options = {
+    threshold: 1
+  }
+  
+  const observer = new IntersectionObserver(showElements);
+  
+  containers.forEach(container => {
+    observer.observe(container)
+  })
+  
+  function showElements(entries) {
+    entries.forEach(entry => {
+
+      entry.target.style.paddingTop = getNavHeight;
+
+      if (entry.isIntersecting) {        
+        entry.target.classList.add('your-active-class');
+      }
+      if(!entry.isIntersecting) {
+        entry.target.classList.remove('your-active-class');
+      }
+    })
+  }
+
 })
 
 // Set sections as active
@@ -141,6 +157,5 @@ function detectScroll() {
 
 
 // TODO:
-// 1. Fix 'your-active-class'
-// 2. Go to top button
-// 3. Make contents collapsible
+// 1. Go to top button
+// 2. Make contents collapsible
