@@ -118,24 +118,25 @@ window.addEventListener('DOMContentLoaded', () => {
 		let lastScroll = 0;
 		const currentScroll = window.pageYOffset;
 
-		if (currentScroll === 0) {
+		if (currentScroll <= 0) {
+			header.classList.remove('hidden');
 			header.classList.add('show');
 		}
 
 		if (currentScroll > lastScroll) {
-			header.classList.remove('show');
-			header.classList.add('hidden');
-
+			header.classList.remove('hidden');
+			header.classList.add('show');
 			setTimeout(function () {
-				header.classList.remove('hidden');
+				header.classList.remove('show');
 			}, 3000);
+			header.classList.add('hidden');
 		}
 	});
 
 	// Go to top button
-	const goToTop = (sections, observer) => {
-		sections.forEach((section) => {
-			if (section.isIntersecting) {
+	const goToTop = (footers) => {
+		footers.forEach((footer) => {
+			if (footer.isIntersecting) {
 				// Show go to top button
 				scrollToTopBtn.classList.remove('hidden');
 				scrollToTopBtn.classList.add('show');
