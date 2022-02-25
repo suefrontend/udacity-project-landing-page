@@ -12,7 +12,7 @@ Open `index.html` to view the project.
 
 Each navigation items are created dynamically based on the contents.
 
-### Hiding Navigation While Scrolling
+### Hide Navigation While Scrolling
 
 Navigation will be hidden while not scrolling.
 
@@ -24,7 +24,7 @@ Section which is in viewport will get active class to distinguished from the oth
 
 Go to Top button will appear when you reach footer. When you click the button, it will bring you to the top of the page with smooth scrolling effect.
 
-### Collapsible Content
+### Collapsible Contents
 
 I added collapse button expand or close the contents.
 
