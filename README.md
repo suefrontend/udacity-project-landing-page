@@ -1,16 +1,33 @@
 # Landing Page Project
 
-## project description, usage, dependencies
-
-
-## Table of Contents
-
-* [Instructions](#instructions)
+This is a landing page project for Udacity Front end Developer course.
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Landing Page project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+Open `index.html` to view the project.
 
-To get started, open `js/app.js` and start building out the app's functionality
+## Features
 
-For specific, detailed instructions, look at the project instructions in the Udacity Classroom.
+### Dynamically Created Navigations
+
+Each navigation items are created dynamically based on the contents.
+
+### Hiding Navigation While Scrolling
+
+Navigation will be hidden while not scrolling.
+
+### Add Class to Active Content
+
+Section which is in viewport will get active class to distinguished from the other sections.
+
+### Go to Top Button
+
+Go to Top button will appear when you reach footer. When you click the button, it will bring you to the top of the page with smooth scrolling effect.
+
+### Collapsible Content
+
+I added collapse button expand or close the contents.
+
+## Live Demo
+
+Click [here](https://suefrontend.github.io/udacity-project-landing-page/) to check live demo
