@@ -1,217 +1,175 @@
 /**
- * 
+ *
  * Manipulating the DOM exercise.
  * Exercise programmatically builds navigation,
  * scrolls to anchors from navigation,
  * and highlights section in viewport upon scrolling.
- * 
+ *
  * Dependencies: None
- * 
+ *
  * JS Version: ES2015/ES6
- * 
+ *
  * JS Standard: ESlint
- * 
-*/
-
-/**
- * Comments should be present at the beginning of each procedure and class.
- * Great to have comments before crucial code sections within the procedure.
-*/
-/**
- * Define Global Variables
- * 
-*/
-const header = document.querySelector('.page__header');
-const nav = document.querySelector('.navbar__menu');
-const ul = document.getElementById('navbar__list');
-const section = Array.from(document.querySelectorAll('[data-nav]'));
-
-/**
- * End Global Variables
- * Start Helper Functions
- * 
-*/
-
-/**
- * End Helper Functions
- * Begin Main Functions
- * 
-*/
-const viewportTop = section.map(el => {
-  const viewportOffset = el.getBoundingClientRect();
-  return viewportOffset.top + window.scrollY;
-})
-// build the nav
-
-
-// Add class 'active' to section when near top of viewport
-
-
-/**
- * End Main Functions
- * Begin Events
- * 
-*/
-
-// Build menu 
-function createList(elem) {
-  const li = document.createElement('li');
-
-  const link = document.createElement('a');
-  link.href = elem.id;
-  link.classList.add('menu__link');
-  link.setAttribute('href', `#${elem.id}`);
-  link.innerHTML = elem.attributes[1].textContent;
-
-  li.appendChild(link);
-
-  ul.appendChild(li);
-}
-
-
-// Hide fixed navigation bar while NOT scrolling
-
-
-
-// Scroll to section on link click
+ *
+ */
 
 window.addEventListener('DOMContentLoaded', () => {
+	/**
+	 * Comments should be present at the beginning of each procedure and class.
+	 * Great to have comments before crucial code sections within the procedure.
+	 */
+	/**
+	 * Define Global Variables
+	 *
+	 */
 
-  section.forEach(el => {
-    createList(el);
-  })
+	const header = document.querySelector('.page__header');
+	const ul = document.getElementById('navbar__list');
+	const sections = Array.from(document.querySelectorAll('[data-nav]'));
+	const containers = document.querySelectorAll("[id*='section'");
+	const footer = document.querySelector('.page__footer');
+	const scrollToTopBtn = document.querySelector('.back-to-top-btn');
+	const collapsibleBtn = document.querySelectorAll('.collapsible-btn');
+	const collapsibleText = Array.from(
+		document.querySelectorAll('.collapsible__content')
+	);
+	const chevron = Array.from(document.querySelectorAll('.fa'));
 
-  const menuLink = Array.from(document.querySelectorAll('.menu__link'));
-  menuLink.forEach((el, index) => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({
-        top: viewportTop[index],
-        behavior: 'smooth',
-      })
-    })
-  });
+	/**
+	 * End Global Variables
+	 * Start Helper Functions
+	 *
+	 */
 
-  const getNavHeight = function() {
-    return document.querySelector('.navbar__menu').clientHeight;
-  }
+	const viewportTop = sections.map((section) => {
+		const viewportOffset = section.getBoundingClientRect();
+		return viewportOffset.top + window.scrollY;
+	});
+	const getNavHeight = () =>
+		document.querySelector('.navbar__menu').clientHeight;
+	/**
+	 * End Helper Functions
+	 * Begin Main Functions
+	 *
+	 */
 
-  const containers = document.querySelectorAll("[id*='section'");
-  
-  // Scroll to anchor ID using scrollTO event
-  
-  let options = {
-    threshold: 1
-  }
-  
-  const observer = new IntersectionObserver(showElements);
-  
-  containers.forEach(container => {
-    observer.observe(container)
-  })
-  
-  function showElements(entries) {
-    entries.forEach(entry => {
+	// Build menu
+	const createList = (elem) => {
+		const li = document.createElement('li');
 
-      entry.target.style.paddingTop = getNavHeight;
+		const link = document.createElement('a');
+		link.href = elem.id;
+		link.classList.add('menu__link');
+		link.setAttribute('href', `#${elem.id}`);
+		link.innerHTML = elem.attributes[1].textContent;
 
-      if (entry.isIntersecting) {        
-        entry.target.classList.add('your-active-class');
-      }
-      if(!entry.isIntersecting) {
-        entry.target.classList.remove('your-active-class');
-      }
-    })
-  }
+		li.appendChild(link);
 
-})
+		ul.appendChild(li);
+	};
 
-// Set sections as active
+	sections.forEach((section) => {
+		createList(section);
+	});
 
-let lastScroll = 0;
-window.addEventListener('scroll', (e) => {  
- 
-  const currentScroll = window.pageYOffset;
+	// Add class 'active' to section when near top of viewport
+	// Set sections as active
+	let options = {
+		threshold: 1,
+	};
 
-  if(currentScroll === 0 ) {
-    header.classList.add('show');
-  }
+	const addActiveClass = (containers) => {
+		containers.forEach((container) => {
+			container.target.style.paddingTop = getNavHeight;
 
-  if(currentScroll > lastScroll) {    
-    header.classList.remove('show');
-    header.classList.add('hidden');
+			if (container.isIntersecting) {
+				container.target.classList.add('your-active-class');
+			}
+			if (!container.isIntersecting) {
+				container.target.classList.remove('your-active-class');
+			}
+		});
+	};
+	const sectionObserver = new IntersectionObserver(addActiveClass);
+	containers.forEach((container) => {
+		sectionObserver.observe(container);
+	});
+	/**
+	 * End Main Functions
+	 * Begin Events
+	 *
+	 */
 
-    setTimeout(function() {
-      header.classList.remove('hidden');
-    }, 3000);
+	// Scroll to anchor ID using scrollTO event
+	// Scroll to section on link click
+	const menuLink = Array.from(document.querySelectorAll('.menu__link'));
+	menuLink.forEach((el, index) => {
+		el.addEventListener('click', (e) => {
+			e.preventDefault();
+			window.scrollTo({
+				top: viewportTop[index],
+				behavior: 'smooth',
+			});
+		});
+	});
 
-  }
+	// Hide fixed navigation bar while NOT scrolling
+	window.addEventListener('scroll', (e) => {
+		let lastScroll = 0;
+		const currentScroll = window.pageYOffset;
 
-})
+		if (currentScroll === 0) {
+			header.classList.add('show');
+		}
 
-function detectScroll() {
-  let isScrolling = false;
+		if (currentScroll > lastScroll) {
+			header.classList.remove('show');
+			header.classList.add('hidden');
 
-  if(window.pageYOffset <= 0) {
-    isScrolling = false;
-  }
-}
+			setTimeout(function () {
+				header.classList.remove('hidden');
+			}, 3000);
+		}
+	});
 
+	// Go to top button
+	const goToTop = (sections, observer) => {
+		sections.forEach((section) => {
+			if (section.isIntersecting) {
+				// Show go to top button
+				scrollToTopBtn.classList.remove('hidden');
+				scrollToTopBtn.classList.add('show');
+			} else {
+				// Hide go to top button
+				scrollToTopBtn.classList.add('hidden');
+				scrollToTopBtn.classList.remove('show');
+			}
+		});
+	};
 
-// TODO:
-// 1. Go to top button
-// 2. Make contents collapsible
+	const scrollToTop = () => {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+	};
+	scrollToTopBtn.addEventListener('click', scrollToTop);
 
-var footer = document.querySelector(".page__footer");
+	let observerGototop = new IntersectionObserver(goToTop);
+	observerGototop.observe(footer);
 
-var scrollToTopBtn = document.querySelector(".back-to-top-btn");
+	// Make contents collapsible
+	collapsibleBtn.forEach((el, index) => {
+		el.addEventListener('click', function (e) {
+			collapsibleText[index].classList.toggle('show');
 
-
-function callback(entries, observer) {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      // Show button
-      scrollToTopBtn.classList.remove("hidden");
-      scrollToTopBtn.classList.add("show");
-    } else {
-      // Hide button
-      scrollToTopBtn.classList.add("hidden");
-      scrollToTopBtn.classList.remove("show");
-    }
-  });
-}
-
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-}
-scrollToTopBtn.addEventListener("click", scrollToTop);
-
-let observerGototop = new IntersectionObserver(callback);
-observerGototop.observe(footer);
-
-const collapsibleBtn = document.querySelectorAll('.collapsible-btn');
-const collapsibleText = Array.from(document.querySelectorAll('.collapsible__content'));
-
-const chevron = Array.from(document.querySelectorAll('.fa'));
-
-collapsibleBtn.forEach((el, index) => {
-
-  el.addEventListener('click', function(e) {
-
-    collapsibleText[index].classList.toggle('show');
-  
-    if(e.target.classList.contains('fa-chevron-down')) {
-      e.target.classList.remove('fa-chevron-down')
-      e.target.classList.add('fa-chevron-up')
-    } else {
-      e.target.classList.remove('fa-chevron-up')
-      e.target.classList.add('fa-chevron-down')
-    }
-  
-  })
-})
-
-
+			if (e.target.classList.contains('fa-chevron-down')) {
+				e.target.classList.remove('fa-chevron-down');
+				e.target.classList.add('fa-chevron-up');
+			} else {
+				e.target.classList.remove('fa-chevron-up');
+				e.target.classList.add('fa-chevron-down');
+			}
+		});
+	});
+});
