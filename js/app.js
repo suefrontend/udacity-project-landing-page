@@ -21,6 +21,8 @@
  * Define Global Variables
  * 
 */
+const header = document.querySelector('.page__header');
+const nav = document.querySelector('.navbar__menu');
 const ul = document.getElementById('navbar__list');
 const section = Array.from(document.querySelectorAll('[data-nav]'));
 
@@ -132,15 +134,15 @@ window.addEventListener('scroll', (e) => {
   const currentScroll = window.pageYOffset;
 
   if(currentScroll === 0 ) {
-    ul.classList.add('show');
+    header.classList.add('show');
   }
 
   if(currentScroll > lastScroll) {    
-    ul.classList.remove('show');
-    ul.classList.add('hidden');
+    header.classList.remove('show');
+    header.classList.add('hidden');
 
     setTimeout(function() {
-      ul.classList.remove('hidden');
+      header.classList.remove('hidden');
     }, 3000);
 
   }
