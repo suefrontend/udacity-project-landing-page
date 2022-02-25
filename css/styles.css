@@ -201,6 +201,18 @@ section:nth-of-type(3n + 1) .landing__container::after {
   height: 90px;
   cursor: pointer;
 }
+.collapsible__content {
+  opacity: 0;
+  height: 0;
+  transition: .3s;
+}
+.collapsible__content.show {
+  height: auto;
+  opacity: 1;
+}
+.fa {
+  cursor: pointer;
+}
 
 /* ---- Theme State Rules ---- */
 /* Section Active Styles */

@@ -191,3 +191,27 @@ scrollToTopBtn.addEventListener("click", scrollToTop);
 
 let observerGototop = new IntersectionObserver(callback);
 observerGototop.observe(footer);
+
+const collapsibleBtn = document.querySelectorAll('.collapsible-btn');
+const collapsibleText = Array.from(document.querySelectorAll('.collapsible__content'));
+
+const chevron = Array.from(document.querySelectorAll('.fa'));
+
+collapsibleBtn.forEach((el, index) => {
+
+  el.addEventListener('click', function(e) {
+
+    collapsibleText[index].classList.toggle('show');
+  
+    if(e.target.classList.contains('fa-chevron-down')) {
+      e.target.classList.remove('fa-chevron-down')
+      e.target.classList.add('fa-chevron-up')
+    } else {
+      e.target.classList.remove('fa-chevron-up')
+      e.target.classList.add('fa-chevron-down')
+    }
+  
+  })
+})
+
+
