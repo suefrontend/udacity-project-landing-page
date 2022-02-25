@@ -159,3 +159,33 @@ function detectScroll() {
 // TODO:
 // 1. Go to top button
 // 2. Make contents collapsible
+
+var footer = document.querySelector(".page__footer");
+
+var scrollToTopBtn = document.querySelector(".back-to-top-btn");
+
+
+function callback(entries, observer) {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      // Show button
+      scrollToTopBtn.classList.remove("hidden");
+      scrollToTopBtn.classList.add("show");
+    } else {
+      // Hide button
+      scrollToTopBtn.classList.add("hidden");
+      scrollToTopBtn.classList.remove("show");
+    }
+  });
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+scrollToTopBtn.addEventListener("click", scrollToTop);
+
+let observerGototop = new IntersectionObserver(callback);
+observerGototop.observe(footer);
