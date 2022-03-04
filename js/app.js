@@ -24,7 +24,6 @@
 
 const header = document.querySelector('.page__header');
 const ul = document.getElementById('navbar__list');
-// const sections = Array.from(document.querySelectorAll('[data-nav]'));
 const sections = document.querySelectorAll('section');
 const footer = document.querySelector('.page__footer');
 const scrollToTopBtn = document.querySelector('.back-to-top-btn');
@@ -33,6 +32,7 @@ const collapsibleText = Array.from(
 	document.querySelectorAll('.collapsible__content')
 );
 const chevron = Array.from(document.querySelectorAll('.fa'));
+let activeSection;
 
 /**
  * End Global Variables
@@ -40,11 +40,10 @@ const chevron = Array.from(document.querySelectorAll('.fa'));
  *
  */
 
-// const viewportTop = sections.map((section) => {
-// 	const viewportOffset = section.getBoundingClientRect();
-// 	return viewportOffset.top + window.scrollY;
-// });
-// const getNavHeight = () => document.querySelector('.navbar__menu').clientHeight;
+const viewportTop = Array.from(sections).map((section) => {
+	const viewportOffset = section.getBoundingClientRect();
+	return viewportOffset.top + window.scrollY;
+});
 /**
  * End Helper Functions
  * Begin Main Functions
@@ -70,29 +69,6 @@ sections.forEach((section) => {
 	createList(section);
 });
 
-// Add class 'active' to section when near top of viewport
-// Set sections as active
-// let options = {
-// 	threshold: 1,
-// };
-
-// const addActiveClass = (containers) => {
-// 	containers.forEach((container, index) => {
-// 		container.target.style.paddingTop = getNavHeight;
-
-// 		if (container.isIntersecting) {
-// 			//	if (index === 0) return null;
-// 			container.target.classList.add('your-active-class');
-// 		}
-// 		if (!container.isIntersecting) {
-// 			container.target.classList.remove('your-active-class');
-// 		}
-// 	});
-// };
-// const sectionObserver = new IntersectionObserver(addActiveClass);
-// containers.forEach((container) => {
-// 	sectionObserver.observe(container);
-// });
 /**
  * End Main Functions
  * Begin Events
@@ -104,6 +80,8 @@ sections.forEach((section) => {
 const menuLink = Array.from(document.querySelectorAll('.menu__link'));
 menuLink.forEach((el, index) => {
 	el.addEventListener('click', (e) => {
+		console.log('viewportTop[index]', viewportTop[index]);
+
 		e.preventDefault();
 		window.scrollTo({
 			top: viewportTop[index],
@@ -113,24 +91,7 @@ menuLink.forEach((el, index) => {
 });
 
 // Hide fixed navigation bar while NOT scrolling
-window.addEventListener('scroll', (e) => {
-	let lastScroll = 0;
-	const currentScroll = window.pageYOffset;
-
-	if (currentScroll <= 0) {
-		header.classList.remove('hidden');
-		header.classList.add('show');
-	}
-
-	if (currentScroll > lastScroll) {
-		header.classList.remove('hidden');
-		header.classList.add('show');
-		setTimeout(function () {
-			header.classList.remove('show');
-		}, 3000);
-		header.classList.add('hidden');
-	}
-});
+window.addEventListener('scroll', (e) => {});
 
 // Go to top button
 const goToTop = (footers) => {
@@ -158,31 +119,9 @@ scrollToTopBtn.addEventListener('click', scrollToTop);
 let observerGototop = new IntersectionObserver(goToTop);
 observerGototop.observe(footer);
 
-// Make contents collapsible
-collapsibleBtn.forEach((el, index) => {
-	el.addEventListener('click', function (e) {
-		collapsibleText[index].classList.toggle('show');
-
-		if (e.target.classList.contains('fa-chevron-down')) {
-			e.target.classList.remove('fa-chevron-down');
-			e.target.classList.add('fa-chevron-up');
-		} else {
-			e.target.classList.remove('fa-chevron-up');
-			e.target.classList.add('fa-chevron-down');
-		}
-	});
-});
-
-// const box = document.getElementById('section1');
-// console.log('box', box);
-
-// Check it element is in viewport
+// Function to check if element is in viewport
 const isInViewport = (element) => {
 	const rect = element.getBoundingClientRect();
-
-	// console.log('window.innerWidth', window.innerWidth);
-	// console.log('window.innerHeight', window.innerHeight);
-	// console.log('rect', rect);
 
 	return (
 		rect.left >= 0 &&
@@ -192,23 +131,18 @@ const isInViewport = (element) => {
 	);
 };
 
-// const setActiveSection = sections.forEach((section, index) => {
-// 	// if (isInViewport(section)) {
-// 	// console.log(`Section ${index} is in viewport`);
-// 	console.log('isInViewport(section)', isInViewport(section));
-// 	// }
-// });
+window.addEventListener('scroll', (e) => {
+	const navItem = document.querySelectorAll('.menu__link');
 
-// isInViewport(box);
-
-// console.log('isInViewport(box)', isInViewport(box));
-
-window.addEventListener('scroll', () => {
+	// Add 'active' class to section which is currently in viewport
+	// Hightlight navigation for the active section
 	sections.forEach((section, index) => {
 		if (isInViewport(section)) {
 			section.classList.add('your-active-class');
+			navItem[index].classList.add('active');
 		} else {
 			section.classList.remove('your-active-class');
+			navItem[index].classList.remove('active');
 		}
 	});
 });
