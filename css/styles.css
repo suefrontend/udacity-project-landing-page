@@ -9,6 +9,9 @@
 */
 
 /* ---- Base Rules ---- */
+* {
+	box-sizing: border-box;
+}
 body {
 	background: rgb(136, 203, 171);
 	background: linear-gradient(
@@ -91,6 +94,7 @@ section {
 /* Header Styles */
 .page__header {
 	background: #fff;
+	/* background: rgba(255, 255, 255, 0.3); */
 	position: fixed;
 	top: 0;
 	width: 100%;
@@ -226,7 +230,26 @@ section:nth-of-type(3n + 1) .landing__container::after {
 .fa {
 	cursor: pointer;
 }
+.red {
+	background: red !important;
+}
 
+@media only screen and (max-width: 34em) {
+	#navbar__list {
+		display: flex;
+		flex-wrap: wrap;
+		text-align: center;
+	}
+	#navbar__list li {
+		width: 50%;
+	}
+}
+.displayNone {
+	display: none;
+}
+.displayBlock {
+	display: block;
+}
 /* ---- Theme State Rules ---- */
 /* Section Active Styles */
 /* Note: your-active-class class is applied through javascript. You should update the class here and in the index.html to what you set in your javascript file.  */

@@ -27,28 +27,6 @@ const ul = document.getElementById('navbar__list');
 const sections = document.querySelectorAll('section');
 const footer = document.querySelector('.page__footer');
 const scrollToTopBtn = document.querySelector('.back-to-top-btn');
-const collapsibleBtn = document.querySelectorAll('.collapsible-btn');
-const collapsibleText = Array.from(
-	document.querySelectorAll('.collapsible__content')
-);
-const chevron = Array.from(document.querySelectorAll('.fa'));
-let activeSection;
-
-/**
- * End Global Variables
- * Start Helper Functions
- *
- */
-
-const viewportTop = Array.from(sections).map((section) => {
-	const viewportOffset = section.getBoundingClientRect();
-	return viewportOffset.top + window.scrollY;
-});
-/**
- * End Helper Functions
- * Begin Main Functions
- *
- */
 
 // Build menu
 const createList = (elem) => {
@@ -69,29 +47,27 @@ sections.forEach((section) => {
 	createList(section);
 });
 
-/**
- * End Main Functions
- * Begin Events
- *
- */
-
 // Scroll to anchor ID using scrollTO event
 // Scroll to section on link click
 const menuLink = Array.from(document.querySelectorAll('.menu__link'));
 menuLink.forEach((el, index) => {
 	el.addEventListener('click', (e) => {
-		console.log('viewportTop[index]', viewportTop[index]);
-
 		e.preventDefault();
+
+		let href = menuLink[index].getAttribute('href');
+		let targetElement = document.getElementById(href.replace('#', ''));
+
+		const rect = targetElement.getBoundingClientRect().top;
+		const offset = window.pageYOffset;
+		const gap = header.clientHeight;
+		const target = rect + offset - gap;
+
 		window.scrollTo({
-			top: viewportTop[index],
+			top: target,
 			behavior: 'smooth',
 		});
 	});
 });
-
-// Hide fixed navigation bar while NOT scrolling
-window.addEventListener('scroll', (e) => {});
 
 // Go to top button
 const goToTop = (footers) => {
@@ -124,10 +100,11 @@ const isInViewport = (element) => {
 	const rect = element.getBoundingClientRect();
 
 	return (
-		rect.left >= 0 &&
 		rect.top >= 0 &&
-		rect.right <= window.innerWidth &&
-		rect.bottom <= window.innerHeight
+		rect.left >= 0 &&
+		rect.bottom <=
+			(window.innerHeight || document.documentElement.clientHeight) &&
+		rect.right <= (window.innerWidth || document.documentElement.clientWidth)
 	);
 };
 
@@ -143,6 +120,21 @@ window.addEventListener('scroll', (e) => {
 		} else {
 			section.classList.remove('your-active-class');
 			navItem[index].classList.remove('active');
+		}
+	});
+
+	// Hide header when not scroling
+	let timeoutId;
+
+	window.addEventListener('scroll', function () {
+		header.style.opacity = '1';
+
+		clearTimeout(timeoutId);
+
+		if (window.pageYOffset !== 0) {
+			timeoutId = setTimeout(function () {
+				header.style.opacity = '0';
+			}, 1500);
 		}
 	});
 });
